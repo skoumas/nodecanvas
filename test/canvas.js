@@ -177,6 +177,12 @@
                 }, /false == true/);
             });
 
+            it("should should be within boundaries", function () {
+                let grid = new Grid(10, 10);
+                let res = grid.Line(0, -1, 10, 20);
+                assert.equal(res, false);
+            });
+
             it("should create a horizontal line in the array using the 'X' symbol", function () {
                 let grid = new Grid(10, 10);
                 let x0 = 1;
@@ -223,6 +229,12 @@
                 }, /false == true/);
             });
 
+            it("should should be within boundaries", function () {
+                let grid = new Grid(10, 10);
+                let res = grid.Rect(0, -1, 10, 20);
+                assert.equal(res, false);
+            });
+
             it("should create a renctangle consisting of 'X' colour", function () {
                 let grid = new Grid(10, 10);
                 let x0 = 1;
@@ -260,6 +272,12 @@
          ------------
         */
         describe("Fill()", function () {
+            it("should should be within boundaries", function () {
+                let grid = new Grid(10, 10);
+                let res = grid.Fill(0, -1, null, "X");
+                assert.equal(res, false);
+            });
+
             it("should fill an area with a new 'colour'", function () {
                 let grid = new Grid(10, 10);
                 let x = 2;

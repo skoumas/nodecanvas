@@ -149,10 +149,10 @@ module.exports = (function () {
     */
     Grid.prototype.Line = function (x0, y0, x1, y1) {
         if (!this.within([x0, x1], [y0, y1])) {
-            return;
+            return false;
         }
         if (!this.exists()) {
-            return;
+            return false;
         }
         assert(Number.isInteger(x0));
         assert(Number.isInteger(y0));
@@ -192,10 +192,10 @@ module.exports = (function () {
     */
     Grid.prototype.Fill = function (x, y, pc, nc) {
         if (!this.within([x], [y])) {
-            return;
+            return false;
         }
         if (!this.exists()) {
-            return;
+            return false;
         }
         assert(Number.isInteger(x));
         assert(Number.isInteger(y));
@@ -225,10 +225,10 @@ module.exports = (function () {
     */
     Grid.prototype.Rect = function (x0, y0, x1, y1) {
         if (!this.within([x0, x1], [y0, y1])) {
-            return;
+            return false;
         }
         if (!this.exists()) {
-            return;
+            return false;
         }
         assert(Number.isInteger(x0));
         assert(Number.isInteger(y0));
