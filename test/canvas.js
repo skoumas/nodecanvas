@@ -106,7 +106,7 @@
             });
         });
 
-        describe("initiate()", function () {
+        describe("initialize()", function () {
             it("should return a multidimentional array w and h size", function () {
                 let grid = new Grid(10, 10);
                 let tempGrid = grid.getGrid();

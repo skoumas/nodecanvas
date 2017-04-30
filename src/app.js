@@ -26,18 +26,30 @@ module.exports = (function () {
     });
 
     commands.add("L", ["i", "i", "i", "i"], function (prms) {
-        grid.Line(prms[0], prms[1], prms[2], prms[3]);
-        line(grid.toString());
+        let res = grid.Line(prms[0], prms[1], prms[2], prms[3]);
+        if (res !== true) {
+            line(res);
+        } else {
+            line(grid.toString());
+        } 
     });
 
     commands.add("R", ["i", "i", "i", "i"], function (prms) {
-        grid.Rect(prms[0], prms[1], prms[2], prms[3]);
-        line(grid.toString());
+        let res = grid.Rect(prms[0], prms[1], prms[2], prms[3]);
+        if (res !== true) {
+            line(res);
+        } else {
+            line(grid.toString()); 
+        }
     });
 
     commands.add("B", ["i", "i", "s"], function (prms) {
-        grid.Fill(prms[0], prms[1], null, prms[2]);
-        line(grid.toString());
+        let res = grid.Fill(prms[0], prms[1], null, prms[2]);
+        if (res !== true) {
+            line(res);
+        } else {
+            line(grid.toString());
+        }
     });
 
     commands.add("Q", [], function () {

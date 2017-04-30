@@ -1,7 +1,7 @@
 {
-  "name": "canvas",
+  "name": "nodecanvas",
   "version": "1.0.0",
-  "description": "",
+  "description": "A terminal controlled canvas app",
   "main": "index.js",
   "dependencies": {
     "assert": "^1.4.1",
@@ -22,6 +22,6 @@
     "start": "node src/app.js",
     "test": "./node_modules/.bin/jshint src/*.js test/*.js && ./node_modules/.bin/eslint --fix **/*.js && ./node_modules/.bin/mocha"
   },
-  "author": "",
+  "author": "Georgios Papanikolaou",
   "license": "ISC"
 }

@@ -64,15 +64,16 @@ module.exports = (function () {
             grid = newGrid;
         };
 
-        grid = this.initiate(w, h);
+        grid = this.initialize(w, h);
     };
 
     /**
      * Initiates the array into a 2d array.
-     * @param {Array.<Array.<number>>} offsets In the form of: [[offsetToX, offsetToY], ...]
-     * @returns {Array.<Coordinates>}
+     * @param {number} w The width of the grid
+     * @param {number} y The height of the grid
+     * @returns {Array.Array} The 2D Grid
     */
-    Grid.prototype.initiate = function (w, h) {
+    Grid.prototype.initialize = function (w, h) {
         if (w < 2 || h < 2) {
             return;
         }
@@ -87,7 +88,7 @@ module.exports = (function () {
     };
 
     /**
-     * Checks if a value is withing boundaries.
+     * Checks if a value is withing boundaries (x,y)
      * @param {Array[]} v The values to be checked
     */
     Grid.prototype.within = function (xs, ys) {
@@ -116,11 +117,11 @@ module.exports = (function () {
      * Erases the canvas
     */
     Grid.prototype.Erase = function () {
-        this.setGrid(this.initiate(this.getW(), this.getH()));
+        this.setGrid(this.initialize(this.getW(), this.getH()));
     };
 
     /**
-     * Adds numeric offsets.
+     * Sets a point in the grid.
      * @param {integer} x The x value of the point
      * @param {integer} y The y value of point
      * @param {integer} value The value for the new color
@@ -149,10 +150,10 @@ module.exports = (function () {
     */
     Grid.prototype.Line = function (x0, y0, x1, y1) {
         if (!this.within([x0, x1], [y0, y1])) {
-            return false;
+            return "\n Beyond canvas size";
         }
         if (!this.exists()) {
-            return false;
+            return "\n Canvas too small";
         }
         assert(Number.isInteger(x0));
         assert(Number.isInteger(y0));
@@ -180,7 +181,6 @@ module.exports = (function () {
                 y0 += sy;
             }
         }
-        // this.setPoint(x1, y1, "X");
     };
 
     /**
@@ -192,10 +192,10 @@ module.exports = (function () {
     */
     Grid.prototype.Fill = function (x, y, pc, nc) {
         if (!this.within([x], [y])) {
-            return false;
+            return "\n Beyond canvas size";
         }
         if (!this.exists()) {
-            return false;
+            return "\n Canvas too small";
         }
         assert(Number.isInteger(x));
         assert(Number.isInteger(y));
@@ -225,10 +225,10 @@ module.exports = (function () {
     */
     Grid.prototype.Rect = function (x0, y0, x1, y1) {
         if (!this.within([x0, x1], [y0, y1])) {
-            return false;
+            return "\n Beyond canvas size";
         }
         if (!this.exists()) {
-            return false;
+            return "\n Canvas too small";
         }
         assert(Number.isInteger(x0));
         assert(Number.isInteger(y0));
@@ -251,6 +251,7 @@ module.exports = (function () {
 
     /**
      * Transforms the array into a string
+     * @returns {string} : Return the grid as a string
      */
     Grid.prototype.toString = function () {
         if (!this.exists()) {

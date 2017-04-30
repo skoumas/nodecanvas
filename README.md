@@ -43,6 +43,22 @@ $ Q
 $ npm test
 ```
 
+# How it works
+- We use the Commands.add to add commands which the inputing() function in app through the terminal-kit
+uses to determine action. 
+- We create a new Grid(w,h) that stores all the points as Point instance which contains only the color
+information (for now). The x,y is actually the x,y of the multidimentional array.
+We could argue that another way to implement would be to have the x and y at the point object
+but I believe this method is best as we can store the x and y into the array structure which 
+resembles a grid by default.
+- In the Grid object we have our Fill, Line and Rect functions which manupulate the grid.
+- The main manipulative function is the setPoint function of course.
+- Note that there is the 'user friendly' x and y value which start from 1 until the end of the canvas
+and differs from the 0 - (end of canvas -1) array value.
+- We load an intro text from intro.txt
+- We use the Command object to determine if the values added are correct.
+- It's so easy to add a new Command. Just commands.add("T",[],function(e){/*do this*/})
+
 # Special Cases / Extra Requirements
 - Taking in considaration that the user might input something in the wrong format
 needed to implement the commands object in which the commands are handled and
