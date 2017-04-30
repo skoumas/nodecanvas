@@ -180,7 +180,7 @@
             it("should should be within boundaries", function () {
                 let grid = new Grid(10, 10);
                 let res = grid.Line(0, -1, 10, 20);
-                assert.equal(res, false);
+                assert.notEqual(res, true);
             });
 
             it("should create a horizontal line in the array using the 'X' symbol", function () {
@@ -232,7 +232,7 @@
             it("should should be within boundaries", function () {
                 let grid = new Grid(10, 10);
                 let res = grid.Rect(0, -1, 10, 20);
-                assert.equal(res, false);
+                assert.notEqual(res, true);
             });
 
             it("should create a renctangle consisting of 'X' colour", function () {
@@ -275,7 +275,7 @@
             it("should should be within boundaries", function () {
                 let grid = new Grid(10, 10);
                 let res = grid.Fill(0, -1, null, "X");
-                assert.equal(res, false);
+                assert.notEqual(res, true);
             });
 
             it("should fill an area with a new 'colour'", function () {

@@ -181,6 +181,7 @@ module.exports = (function () {
                 y0 += sy;
             }
         }
+        return true;
     };
 
     /**
@@ -213,6 +214,7 @@ module.exports = (function () {
         this.Fill(x, y - 1, pc, nc);
         this.Fill(x + 1, y, pc, nc);
         this.Fill(x - 1, y, pc, nc);
+        return true;
     };
 
     /**
@@ -247,6 +249,7 @@ module.exports = (function () {
         for (let y = y0; y <= y1; y++) {
             this.setPoint(x1, y, "X");
         }
+        return true;
     };
 
     /**

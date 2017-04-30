@@ -31,7 +31,7 @@ module.exports = (function () {
             line(res);
         } else {
             line(grid.toString());
-        } 
+        }
     });
 
     commands.add("R", ["i", "i", "i", "i"], function (prms) {
@@ -39,7 +39,7 @@ module.exports = (function () {
         if (res !== true) {
             line(res);
         } else {
-            line(grid.toString()); 
+            line(grid.toString());
         }
     });
 
