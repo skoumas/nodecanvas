@@ -3,10 +3,18 @@ module.exports = (function () {
 
     const term = require("terminal-kit").terminal;
     const Canvas = require("./canvas");
-    const commands = require("./commands").Commands;
-    const Grid = Canvas.Grid;
     const fs = require("fs");
-    let grid = new Grid(0, 0); // Our instance of the Canvas Object
+    const Commands = require("./commands").Commands;
+    const commands = new Commands();
+    const Grid = Canvas.Grid;
+    let grid = new Grid(0, 0);
+
+    /**
+     * Displays text into the terminal
+    */
+    function line (string) {
+        term.green("\n%s", string);
+    }
 
     /**
      * Adding all the commands that we will need.
@@ -20,6 +28,7 @@ module.exports = (function () {
     commands.add("L", ["i", "i", "i", "i"], function (prms) {
         grid.Line(prms[0], prms[1], prms[2], prms[3]);
         line(grid.toString());
+        line(grid.getGrid());
     });
 
     commands.add("R", ["i", "i", "i", "i"], function (prms) {
@@ -32,12 +41,12 @@ module.exports = (function () {
         line(grid.toString());
     });
 
-    commands.add("Q", [], function (prms) {
+    commands.add("Q", [], function () {
         line("\nExiting...\n");
         process.exit();
     });
 
-    commands.add("D", [], function (e) {
+    commands.add("D", [], function () {
         line("\nDemo...\n");
         line("\nenter command: C 20 4");
         grid = new Grid(20, 4);
@@ -56,28 +65,9 @@ module.exports = (function () {
         line(grid.toString());
     });
 
-    commands.setDefault(function (prms, string) {
+    commands.setDefault(function () {
         line("\nUnknown command");
     });
-
-    /**
-     * Display text into the terminal
-    */
-    function line (string) {
-        term.green("\n%s", string);
-    }
-
-    /**
-     * Initializes the app.
-     * Shows a friendly message loaded from a intro.txt.
-    */
-    function init (text) {
-        grid = [];
-        fs.readFile("intro.txt", "utf8", function (err, data) {
-            line(data);
-            inputing();
-        });
-    }
 
     /**
      * The main loop of our app in which we rely on the user's keyboard input.
@@ -91,11 +81,26 @@ module.exports = (function () {
                         inputing();
                     }
                     let prms = input.trim().split(" ");
-                    prms.splice(0,1);
+                    prms.splice(0, 1);
                     commands.execute(input[0], prms);
                     inputing();
                 }
         );
+    }
+
+    /**
+     * Initializes the app.
+     * Shows a friendly message loaded from a intro.txt.
+    */
+    function init () {
+        grid = [];
+        fs.readFile("intro.txt", "utf8", function (err, data) {
+            if (err) {
+                process.exit();
+            }
+            line(data);
+            inputing();
+        });
     }
 
     /**

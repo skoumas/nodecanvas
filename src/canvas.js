@@ -1,7 +1,7 @@
 module.exports = (function () {
     "use strict";
 
-    // const assert = require("assert");
+    const assert = require("assert");
 
     /**
      * Represents a pixel in two dimensions.
@@ -9,7 +9,10 @@ module.exports = (function () {
      * @param {string} color
      */
     const Point = function (color) {
+        assert(typeof color === "string");
+
         this.setColor = function (ncolor) {
+            // assert(color.length === 1);
             color = ncolor;
         };
 
@@ -25,8 +28,10 @@ module.exports = (function () {
      * @param {number} y The height of the grid
      */
     const Grid = function (w, h) {
-        // assert(Number.isInteger(w));
-        // assert(Number.isInteger(h));
+        assert(w !== undefined);
+        assert(h !== undefined);
+        assert(Number.isInteger(w));
+        assert(Number.isInteger(h));
 
         let grid = new Map();
 
@@ -61,9 +66,9 @@ module.exports = (function () {
     */
     Grid.prototype.initiate = function (w, h) {
         let temp = [];
-        for (let y = 0; y <= h; ++y) {
+        for (let y = 0; y < h; ++y) {
             temp[y] = [];
-            for (let x = 0; x <= w; ++x) {
+            for (let x = 0; x < w; ++x) {
                 temp[y][x] = new Point("");
             }
         }
@@ -76,16 +81,22 @@ module.exports = (function () {
      * @returns {Array.<Coordinates>}
     */
     Grid.prototype.setPoint = function (x, y, value) {
-        this.getGrid(y - 1, x - 1).setColor(value);
+        assert(Number.isInteger(x));
+        assert(Number.isInteger(y));
+        if (value === "|" || value === "-") {
+            return;
+        }
+        assert(typeof value === "string");
+        this.getGrid(x - 1, y - 1).setColor(value);
     };
 
     /**
      * Creates a line between two points using the
        bresenham algorithm. Diagonal lines also supported.
-     * @param {integet} x0 The x value of the first point
-     * @param {integet} y0 The y value of the first point
-     * @param {integet} x1 The x value of the second point
-     * @param {integet} y1 The y value of the second point
+     * @param {integer} x0 The x value of the first point
+     * @param {integer} y0 The y value of the first point
+     * @param {integer} x1 The x value of the second point
+     * @param {integer} y1 The y value of the second point
     */
     Grid.prototype.Line = function (x0, y0, x1, y1) {
         let dx = Math.abs(x1 - x0);
@@ -95,13 +106,21 @@ module.exports = (function () {
         let err = dx - dy;
 
         while (true) {
-            this.setPoint(x0, y0, 1);  // Do what you need to for this
-
-            if (x0 === x1 && y0 === y1) { break; }
+            this.setPoint(x0, y0, "X");
+            if (x0 === x1 && y0 === y1) {
+                break;
+            }
             let e2 = 2 * err;
-            if (e2 > -dy) { err -= dy; x0 += sx; }
-            if (e2 < dx) { err += dx; y0 += sy; }
+            if (e2 > -dy) {
+                err -= dy;
+                x0 += sx;
+            }
+            if (e2 < dx) {
+                err += dx;
+                y0 += sy;
+            }
         }
+        // this.setPoint(x1, y1, "X");
     };
 
     /**
@@ -128,23 +147,23 @@ module.exports = (function () {
     /**
      * Creates a rect between two points using the bresenham algorithm.
        Diagonal lines also supported.
-     * @param {integet} x0 The x value of the first point
-     * @param {integet} y0 The y value of the first point
-     * @param {integet} x1 The x value of the second point
-     * @param {integet} y1 The y value of the second point
+     * @param {integer} x0 The x value of the first point
+     * @param {integer} y0 The y value of the first point
+     * @param {integer} x1 The x value of the second point
+     * @param {integer} y1 The y value of the second point
     */
     Grid.prototype.Rect = function (x1, y1, x2, y2) {
         for (let x = x1; x <= x2; x++) {
-            this.setPoint(x, y1, 1);
+            this.setPoint(x, y1, "X");
         }
         for (let x = x1; x <= x2; x++) {
-            this.setPoint(x, y2, 1);
+            this.setPoint(x, y2, "X");
         }
         for (let y = y1; y <= y2; y++) {
-            this.setPoint(x1, y, 1);
+            this.setPoint(x1, y, "X");
         }
         for (let y = y1; y <= y2; y++) {
-            this.setPoint(x2, y, 1);
+            this.setPoint(x2, y, "X");
         }
     };
 
@@ -154,7 +173,7 @@ module.exports = (function () {
     Grid.prototype.toString = function () {
         let string = "";
 
-        for (let x = -2; x <= this.getW(); ++x) {
+        for (let x = -2; x < this.getW(); ++x) {
             string += "-";
         }
         string += "\n";
@@ -174,7 +193,7 @@ module.exports = (function () {
             }
         }
 
-        for (let x = -2; x <= this.getW(); ++x) {
+        for (let x = -2; x < this.getW(); ++x) {
             string += "-";
         }
         string += "\n";
@@ -182,6 +201,7 @@ module.exports = (function () {
     };
 
     return {
-        "Grid": Grid
+        "Grid": Grid,
+        "Point": Point
     };
 }());

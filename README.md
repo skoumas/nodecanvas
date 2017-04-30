@@ -38,10 +38,26 @@ Quit
 $ Q
 ```
 
+# Testing
+```bash
+$ npm test
+```
+
+# Special Cases / Extra Requirements
+- Taking in considaration that the user might input something in the wrong format
+needed to implement the commands object in which the commands are handled and
+checked for their validity.
+- Thought that it would be nice to implement the line function
+including diagonical values.
+
+# Assumptions
+- The user has internet connection to run npm install!
+- The user has understanding of how to use the terminal as no UI is involved.
+
 # Technology selection
-- Terminal Kit: For the terminal input functions
-- Mocha: For testing
-- Chai: For Testing
+- Terminal Kit:   For having terminal/keyboard functions
+- Mocha, Assert:  For testing
+- JSlint, eslint: For beautiful code
 
 # Thanks
 To Mr Bresenham and his line algorithm! 
