@@ -27,7 +27,7 @@ $ L 1 1 10 10
 ```
 Draw rectangle from (1,1) to (5,5)!
 ```bash 
-$ R 1 1 10 10 
+$ R 1 1 5 5 
 ```
 Start filling from (7,7) with the 'colour' 'H'
 ```bash 
