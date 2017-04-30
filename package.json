@@ -20,7 +20,7 @@
   },
   "scripts": {
     "start": "node src/app.js",
-    "test": "./node_modules/.bin/jshint src/*.js test/*.js && ./node_modules/.bin/eslint --fix **/*.js && ./node_modules/.bin/mocha"
+    "test": "./node_modules/.bin/jshint src/*.js test/*.js && ./node_modules/.bin/eslint **/*.js && ./node_modules/.bin/mocha"
   },
   "author": "Georgios Papanikolaou",
   "license": "ISC"
