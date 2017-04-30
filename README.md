@@ -38,7 +38,14 @@ Quit
 $ Q
 ```
 
-# Troubleshooting
+# Technology selection
+- Terminal Kit: For the terminal input functions
+- Mocha: For testing
+- Chai: For Testing
+
+# Thanks
+To Mr Bresenham and his line algorithm! 
+https://en.wikipedia.org/wiki/Bresenham%27s_line_algorithm
 
 # More info
- 
+More info about me at www.skoumas.com

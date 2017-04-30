@@ -5,7 +5,6 @@
   "main": "index.js",
   "dependencies": {
     "assert": "^1.4.1",
-    "bresenham": "0.0.4",
     "terminal-kit": "^1.4.4"
   },
   "devDependencies": {
