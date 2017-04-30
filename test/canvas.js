@@ -154,21 +154,28 @@
                 let grid = new Grid(10, 10);
                 assert.doesNotThrow(function () {
                     grid.setPoint(5, 5, "X");
-                    assert.equal(grid.getGrid(5 - 1, 5 - 1).getColor(), "X");
+                    assert.equal(grid.getGrid(5, 5).getColor(), "X");
                 });
             });
             it("should not accept | or -", function () {
                 let grid = new Grid(10, 10);
                 assert.doesNotThrow(function () {
                     grid.setPoint(5, 5, "|");
-                    assert.equal(grid.getGrid(5 - 1, 5 - 1).getColor(), "");
+                    assert.equal(grid.getGrid(5, 5).getColor(), "");
                     grid.setPoint(5, 5, "-");
-                    assert.equal(grid.getGrid(5 - 1, 5 - 1).getColor(), "");
+                    assert.equal(grid.getGrid(5, 5).getColor(), "");
                 });
             });
         });
 
         describe("Line()", function () {
+            it("should accept 4 integers", function () {
+                let grid = new Grid(10, 10);
+                assert.throws(function () {
+                    grid.Line("x0", 1, 2);
+                }, /false == true/);
+            });
+
             it("should create a horizontal line in the array using the 'X' symbol", function () {
                 let grid = new Grid(10, 10);
                 let x0 = 1;
@@ -177,7 +184,7 @@
 
                 grid.Line(x0, y, x1, y);
                 for (let x = x0; x <= x1; x++) {
-                    assert.equal(grid.getGrid(x - 1, y - 1).getColor(), "X");
+                    assert.equal(grid.getGrid(x, y).getColor(), "X");
                 }
             });
 
@@ -189,7 +196,7 @@
 
                 grid.Line(x, y0, x, y1);
                 for (let y = y0; y <= y1; y++) {
-                    assert.equal(grid.getGrid(x - 1, y - 1).getColor(), "X");
+                    assert.equal(grid.getGrid(x, y).getColor(), "X");
                 }
             });
 
@@ -201,13 +208,20 @@
                 let y1 = 5;
 
                 grid.Line(x0, y0, x1, y1);
-                for (let x = x0; x <= x1; x++) {
-                    assert.equal(grid.getGrid(x - 1, x - 1).getColor(), "X");
+                for (let i = x0; i <= x1; i++) {
+                    assert.equal(grid.getGrid(i, i).getColor(), "X");
                 }
             });
         });
-        
+
         describe("Rect()", function () {
+            it("should accept 4 integers", function () {
+                let grid = new Grid(10, 10);
+                assert.throws(function () {
+                    grid.Rect("x0", 1, 2);
+                }, /false == true/);
+            });
+
             it("should create a renctangle consisting of 'X' colour", function () {
                 let grid = new Grid(10, 10);
                 let x0 = 1;
@@ -215,11 +229,62 @@
                 let x1 = 5;
                 let y1 = 5;
 
-                grid.Rect(x0, y, x1, y);
+                grid.Rect(x0, y0, x1, y1);
                 for (let x = x0; x <= x1; x++) {
-                    assert.equal(grid.getGrid(x - 1, y - 1).getColor(), "X");
+                    assert.equal(grid.getGrid(x, y0).getColor(), "X");
+                }
+                for (let x = x0; x <= x1; x++) {
+                    assert.equal(grid.getGrid(x, y1).getColor(), "X");
+                }
+                for (let y = y0; y <= y1; y++) {
+                    assert.equal(grid.getGrid(x1, y).getColor(), "X");
+                }
+                for (let x = x0; x <= x1; x++) {
+                    assert.equal(grid.getGrid(x, y0).getColor(), "X");
                 }
             });
-         });
+        });
+        /*
+        ------------
+        1|XXXXXXX   |
+        2|XX    X   |
+        3|XcX   X   |
+        4|XccX  X   |
+        5|XcccX X   |
+        6|XccccXX   |
+        7|XXXXXXX   |
+        |          |
+        |          |
+        |          |
+        ------------
+        */
+        describe("Fill()", function () {
+            it("should fill an area with a new 'colour'", function () {
+                let grid = new Grid(10, 10);
+                let x = 2;
+                let y = 5;
+                let colour = "c";
+
+                grid.Rect(1, 1, 7, 7);
+                grid.Line(1, 1, 7, 7);
+                grid.Fill(x, y, null, "c");
+
+                let filled = (grid.toString().match(/c/g) || []).length;
+                assert.equal(filled, 10);
+                assert.equal(grid.getGrid(2, 3).getColor(), colour);
+
+                assert.equal(grid.getGrid(2, 4).getColor(), colour);
+                assert.equal(grid.getGrid(3, 4).getColor(), colour);
+
+                assert.equal(grid.getGrid(2, 5).getColor(), colour);
+                assert.equal(grid.getGrid(3, 5).getColor(), colour);
+                assert.equal(grid.getGrid(4, 5).getColor(), colour);
+
+                assert.equal(grid.getGrid(2, 6).getColor(), colour);
+                assert.equal(grid.getGrid(3, 6).getColor(), colour);
+                assert.equal(grid.getGrid(4, 6).getColor(), colour);
+                assert.equal(grid.getGrid(5, 6).getColor(), colour);
+            });
+        });
     });
 }());

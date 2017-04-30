@@ -45,14 +45,18 @@ module.exports = (function () {
 
         /**
          * Gets the whole grid if no x y defined or a specific pixel in the grid.
-         * @param {Array.<Array.<number>>} offsets In the form of: [[offsetToX, offsetToY], ...]
-         * @returns {Array.<Coordinates>}
+         * @param {number} x The x value of the pixel (user friendly mode)
+           We do -1 for array value!
+         * @param {number} y The x value of the pixel (user friendly mode)
+           We do -1 for array value!!
+         * @returns {Array}: The whole grid if no values specified or
+              the specific Point.
         */
         this.getGrid = function (x, y) {
             if (x === undefined || y === undefined) {
                 return grid;
             } else {
-                return grid[x][y];
+                return grid[x - 1][y - 1];
             }
         };
 
@@ -66,10 +70,10 @@ module.exports = (function () {
     */
     Grid.prototype.initiate = function (w, h) {
         let temp = [];
-        for (let y = 0; y < h; ++y) {
-            temp[y] = [];
-            for (let x = 0; x < w; ++x) {
-                temp[y][x] = new Point("");
+        for (let x = 0; x < w; ++x) {
+            temp[x] = [];
+            for (let y = 0; y < h; ++y) {
+                temp[x][y] = new Point("");
             }
         }
         return temp;
@@ -87,7 +91,7 @@ module.exports = (function () {
             return;
         }
         assert(typeof value === "string");
-        this.getGrid(x - 1, y - 1).setColor(value);
+        this.getGrid(x, y).setColor(value);
     };
 
     /**
@@ -99,6 +103,11 @@ module.exports = (function () {
      * @param {integer} y1 The y value of the second point
     */
     Grid.prototype.Line = function (x0, y0, x1, y1) {
+        assert(Number.isInteger(x0));
+        assert(Number.isInteger(y0));
+        assert(Number.isInteger(x1));
+        assert(Number.isInteger(y1));
+
         let dx = Math.abs(x1 - x0);
         let dy = Math.abs(y1 - y0);
         let sx = x0 < x1 ? 1 : -1;
@@ -131,13 +140,18 @@ module.exports = (function () {
      * @param {string}  nc The new color that we want to use.
     */
     Grid.prototype.Fill = function (x, y, pc, nc) {
+        assert(Number.isInteger(x));
+        assert(Number.isInteger(y));
+        // assert(typeof pc === "string" || pc === null);
+        // assert(typeof nc === "string");
+
         if (pc === null) {
-            pc = this.getGrid()[y - 1][x - 1].getColor();
+            pc = this.getGrid()[x][y].getColor();
         }
 
-        if (y <= 0 || x <= 0 || x > this.getW() || y > this.getH()) { return; }
-        if (this.getGrid()[y - 1][x - 1].getColor() !== pc) { return; }
-        this.getGrid()[y - 1][x - 1].setColor(nc);
+        if (y < 0 || x < 0 || x >= this.getW() || y >= this.getH()) { return; }
+        if (this.getGrid()[x][y].getColor() !== pc) { return; }
+        this.getGrid()[x][y].setColor(nc);
         this.Fill(x, y + 1, pc, nc);
         this.Fill(x, y - 1, pc, nc);
         this.Fill(x + 1, y, pc, nc);
@@ -152,18 +166,23 @@ module.exports = (function () {
      * @param {integer} x1 The x value of the second point
      * @param {integer} y1 The y value of the second point
     */
-    Grid.prototype.Rect = function (x1, y1, x2, y2) {
-        for (let x = x1; x <= x2; x++) {
+    Grid.prototype.Rect = function (x0, y0, x1, y1) {
+        assert(Number.isInteger(x0));
+        assert(Number.isInteger(y0));
+        assert(Number.isInteger(x1));
+        assert(Number.isInteger(y1));
+
+        for (let x = x0; x <= x1; x++) {
+            this.setPoint(x, y0, "X");
+        }
+        for (let x = x0; x <= x1; x++) {
             this.setPoint(x, y1, "X");
         }
-        for (let x = x1; x <= x2; x++) {
-            this.setPoint(x, y2, "X");
+        for (let y = y0; y <= y1; y++) {
+            this.setPoint(x0, y, "X");
         }
-        for (let y = y1; y <= y2; y++) {
+        for (let y = y0; y <= y1; y++) {
             this.setPoint(x1, y, "X");
-        }
-        for (let y = y1; y <= y2; y++) {
-            this.setPoint(x2, y, "X");
         }
     };
 
@@ -178,17 +197,17 @@ module.exports = (function () {
         }
         string += "\n";
 
-        for (let y = 0; y < this.getH(); ++y) {
+        for (let y = 1; y <= this.getH(); ++y) {
             string += "|";
-            for (let x = 0; x < this.getW(); ++x) {
-                if (this.getGrid(y, x).getColor() !== "") {
-                    string += this.getGrid(y, x).getColor();
+            for (let x = 1; x <= this.getW(); ++x) {
+                if (this.getGrid(x, y).getColor() !== "") {
+                    string += this.getGrid(x, y).getColor();
                 } else {
                     string += " ";
                 }
             }
             string += "|";
-            if (y < this.getH()) {
+            if (y <= this.getH()) {
                 string += "\n";
             }
         }

@@ -28,7 +28,6 @@ module.exports = (function () {
     commands.add("L", ["i", "i", "i", "i"], function (prms) {
         grid.Line(prms[0], prms[1], prms[2], prms[3]);
         line(grid.toString());
-        line(grid.getGrid());
     });
 
     commands.add("R", ["i", "i", "i", "i"], function (prms) {
