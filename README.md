@@ -65,5 +65,8 @@ including diagonical values.
 To Mr Bresenham and his line algorithm! 
 https://en.wikipedia.org/wiki/Bresenham%27s_line_algorithm
 
+# Screenshot
+![Alt text](/screenshot.png?raw=true "Optional Title")
+
 # More info
 More info about me at www.skoumas.com
