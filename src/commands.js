@@ -26,11 +26,11 @@ module.exports = (function () {
 
         this.execute = function (callBackParams) {
             assert(typeof callBackParams === "object" || callBackParams === null);
-            if (this.validateParams(expecting, callBackParams)) {
+            if (this.validateParams(expecting, callBackParams) === true) {
                 callback(callBackParams);
                 return true;
             } else {
-                return false;
+                return this.validateParams(expecting, callBackParams);
             }
         };
     };
@@ -127,7 +127,7 @@ module.exports = (function () {
     Commands.prototype.execute = function (symbol, params) {
         let command = this.search(symbol);
         if (command) {
-            command.execute(params);
+            return command.execute(params);
         } else {
             this.executeDefault();
             return false;

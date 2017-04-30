@@ -49,6 +49,7 @@ needed to implement the commands object in which the commands are handled and
 checked for their validity.
 - Thought that it would be nice to implement the line function
 including diagonical values.
+- Added the 'E' command which erases the grid.
 
 # Assumptions
 - The user has internet connection to run npm install!

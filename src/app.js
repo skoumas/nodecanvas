@@ -41,8 +41,14 @@ module.exports = (function () {
     });
 
     commands.add("Q", [], function () {
-        line("\nExiting...\n");
+        line("\nExiting...");
+        line("Have a nice day!\n");
         process.exit();
+    });
+
+    commands.add("E", [], function () {
+        grid.Erase();
+        line(grid.toString());
     });
 
     commands.add("D", [], function () {
@@ -64,6 +70,16 @@ module.exports = (function () {
         line(grid.toString());
     });
 
+    commands.add("X", [], function () {
+        line("\nWelcome to the Diagonal Demo...\n");
+        grid = new Grid(20, 20);
+        line("\nenter command: L 1 1 20 20");
+        grid.Line(1, 1, 20, 20);
+        line("\nenter command: L 1 20 20 1");
+        grid.Line(1, 20, 20, 1);
+        line(grid.toString());
+    });
+
     commands.setDefault(function () {
         line("\nUnknown command");
     });
@@ -81,7 +97,10 @@ module.exports = (function () {
                     }
                     let prms = input.trim().split(" ");
                     prms.splice(0, 1);
-                    commands.execute(input[0], prms);
+                    let result = commands.execute(input[0], prms);
+                    if (result !== true) {
+                        line(result);
+                    }
                     inputing();
                 }
         );
@@ -92,13 +111,14 @@ module.exports = (function () {
      * Shows a friendly message loaded from a intro.txt.
     */
     function init () {
-        grid = [];
         fs.readFile("intro.txt", "utf8", function (err, data) {
             if (err) {
                 process.exit();
+                return false;
             }
             line(data);
             inputing();
+            return true;
         });
     }
 
@@ -106,4 +126,8 @@ module.exports = (function () {
      * Initiate
     */
     init();
+
+    return {
+        "init": init
+    };
 }());

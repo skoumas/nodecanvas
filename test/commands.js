@@ -44,7 +44,7 @@
 
                 });
                 let validation = testCommand.validateParams(["i", "i"], ["A", "B"]);
-                assert.notEqual(validation, false);
+                assert.equal(typeof validation, "string");
             });
         });
 
@@ -72,7 +72,7 @@
                     testVariable = "Hello";
                 });
                 testCommand.execute([1, 2, 3, "4"]);
-                assert.equal(testVariable, "Hello");
+                assert.equal(testVariable, "");
             });
 
             it("should not be executed with bad params", function () {
@@ -81,7 +81,7 @@
                     testVariable = "Hello";
                 });
                 testCommand.execute([1, "s", 1]);
-                assert.equal(testVariable, "Hello");
+                assert.equal(testVariable, "");
             });
         });
     });

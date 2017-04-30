@@ -17,6 +17,9 @@ B x y c.
 D
 	Demo!
 
+X
+	Diagonal Lines Demo!
+
 Q
 	Exit!
 **************************

@@ -33,7 +33,7 @@ module.exports = (function () {
         assert(Number.isInteger(w));
         assert(Number.isInteger(h));
 
-        let grid = new Map();
+        let grid = [new Map()];
 
         this.getW = function () {
             return w;
@@ -60,6 +60,10 @@ module.exports = (function () {
             }
         };
 
+        this.setGrid = function (newGrid) {
+            grid = newGrid;
+        };
+
         grid = this.initiate(w, h);
     };
 
@@ -69,6 +73,9 @@ module.exports = (function () {
      * @returns {Array.<Coordinates>}
     */
     Grid.prototype.initiate = function (w, h) {
+        if (w < 2 || h < 2) {
+            return;
+        }
         let temp = [];
         for (let x = 0; x < w; ++x) {
             temp[x] = [];
@@ -80,13 +87,51 @@ module.exports = (function () {
     };
 
     /**
+     * Checks if a value is withing boundaries.
+     * @param {Array[]} v The values to be checked
+    */
+    Grid.prototype.within = function (xs, ys) {
+        for (let i = 0; i < xs.length; i++) {
+            if (xs[i] < 0 || xs[i] > this.getW()) {
+                return false;
+            }
+        }
+        for (let i = 0; i < ys.length; i++) {
+            if (ys[i] < 0 || ys[i] > this.getH()) {
+                return false;
+            }
+        }
+
+        return true;
+    };
+
+    /**
+     * Canvas exists?
+    */
+    Grid.prototype.exists = function () {
+        return this.getH() > 2 && this.getW() > 2;
+    };
+
+    /**
+     * Erases the canvas
+    */
+    Grid.prototype.Erase = function () {
+        this.setGrid(this.initiate(this.getW(), this.getH()));
+    };
+
+    /**
      * Adds numeric offsets.
-     * @param {Array.<Array.<number>>} offsets In the form of: [[offsetToX, offsetToY], ...]
-     * @returns {Array.<Coordinates>}
+     * @param {integer} x The x value of the point
+     * @param {integer} y The y value of point
+     * @param {integer} value The value for the new color
     */
     Grid.prototype.setPoint = function (x, y, value) {
+        if (!this.within([x], [y])) {
+            return;
+        }
         assert(Number.isInteger(x));
         assert(Number.isInteger(y));
+
         if (value === "|" || value === "-") {
             return;
         }
@@ -103,6 +148,12 @@ module.exports = (function () {
      * @param {integer} y1 The y value of the second point
     */
     Grid.prototype.Line = function (x0, y0, x1, y1) {
+        if (!this.within([x0, x1], [y0, y1])) {
+            return;
+        }
+        if (!this.exists()) {
+            return;
+        }
         assert(Number.isInteger(x0));
         assert(Number.isInteger(y0));
         assert(Number.isInteger(x1));
@@ -140,6 +191,12 @@ module.exports = (function () {
      * @param {string}  nc The new color that we want to use.
     */
     Grid.prototype.Fill = function (x, y, pc, nc) {
+        if (!this.within([x], [y])) {
+            return;
+        }
+        if (!this.exists()) {
+            return;
+        }
         assert(Number.isInteger(x));
         assert(Number.isInteger(y));
         // assert(typeof pc === "string" || pc === null);
@@ -167,6 +224,12 @@ module.exports = (function () {
      * @param {integer} y1 The y value of the second point
     */
     Grid.prototype.Rect = function (x0, y0, x1, y1) {
+        if (!this.within([x0, x1], [y0, y1])) {
+            return;
+        }
+        if (!this.exists()) {
+            return;
+        }
         assert(Number.isInteger(x0));
         assert(Number.isInteger(y0));
         assert(Number.isInteger(x1));
@@ -190,6 +253,9 @@ module.exports = (function () {
      * Transforms the array into a string
      */
     Grid.prototype.toString = function () {
+        if (!this.exists()) {
+            return "Canvas not exist or smaller than 2x2";
+        }
         let string = "";
 
         for (let x = -2; x < this.getW(); ++x) {

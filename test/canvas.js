@@ -147,8 +147,9 @@
             it("should have x y integer and accept one string", function () {
                 let grid = new Grid(10, 10);
                 assert.throws(function () {
-                    grid.setPoint("10", 1, "12");
+                    grid.setPoint("10", 1, "X");
                 }, /false == true/);
+                // assert.equal(res, false);
             });
             it("should change the value of the Point in question", function () {
                 let grid = new Grid(10, 10);
@@ -245,7 +246,7 @@
             });
         });
         /*
-        ------------
+         ------------
         1|XXXXXXX   |
         2|XX    X   |
         3|XcX   X   |
@@ -253,10 +254,10 @@
         5|XcccX X   |
         6|XccccXX   |
         7|XXXXXXX   |
-        |          |
-        |          |
-        |          |
-        ------------
+        8|          |
+        9|          |
+         |          |
+         ------------
         */
         describe("Fill()", function () {
             it("should fill an area with a new 'colour'", function () {
@@ -284,6 +285,33 @@
                 assert.equal(grid.getGrid(3, 6).getColor(), colour);
                 assert.equal(grid.getGrid(4, 6).getColor(), colour);
                 assert.equal(grid.getGrid(5, 6).getColor(), colour);
+            });
+        });
+
+        describe("Erase()", function () {
+            it("should clear the grid", function () {
+                let grid = new Grid(10, 10);
+                grid.Fill(1, 1, null, "c");
+
+                let filled = (grid.toString().match(/c/g) || []).length;
+                grid.Erase();
+                let newFilled = (grid.toString().match(/c/g) || []).length;
+                assert.notEqual(filled, newFilled);
+                for (let x = 1; x <= 10; x++) {
+                    for (let y = 1; y <= 10; y++) {
+                        assert.equal(grid.getGrid(x, y).getColor(), "");
+                    }
+                }
+                assert.equal(grid.getGrid()[0].length, 10);
+                assert.equal(grid.getGrid().length, 10);
+            });
+        });
+
+        describe("within()", function () {
+            it("Makes sure that values are withing the size of the grid", function () {
+                let grid = new Grid(10, 10);
+                let res = grid.within([20, 10], [20, 10]);
+                assert.equal(res, false);
             });
         });
     });
