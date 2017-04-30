@@ -1,0 +1,28 @@
+{
+  "name": "canvas",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "assert": "^1.4.1",
+    "bresenham": "0.0.4",
+    "terminal-kit": "^1.4.4"
+  },
+  "devDependencies": {
+    "assert": "^1.4.1",
+    "chai": "3.5.0",
+    "chai-http": "3.0.0",
+    "eslint": "3.16.1",
+    "eslint-config-standard": "6.2.1",
+    "eslint-plugin-promise": "3.4.2",
+    "eslint-plugin-standard": "2.0.1",
+    "jshint": "2.9.4",
+    "mocha": "3.2.0"
+  },
+  "scripts": {
+    "start": "node src/app.js",
+    "test": "./node_modules/.bin/jshint src/*.js test/*.js && ./node_modules/.bin/eslint --fix **/*.js && ./node_modules/.bin/mocha"
+  },
+  "author": "",
+  "license": "ISC"
+}

@@ -1,0 +1,23 @@
+{
+    "extends": "standard",
+    "plugins": [
+        "standard",
+        "promise"
+    ],
+    "globals": {
+        "$": false,
+        "WebSocket": false,
+        "before": false,
+        "beforeEach": false,
+        "describe": false,
+        "it": false,
+        "module": false,
+        "require": false
+    },
+    "rules": {
+        "indent": ["error", 4],
+        "max-len": ["error", 100],
+        "quotes": ["error", "double"],
+        "semi": ["error", "always"]
+    }
+}
